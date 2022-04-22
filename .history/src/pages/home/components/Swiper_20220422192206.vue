@@ -1,0 +1,20 @@
+<template>
+    <swiper :options="swiperOption" ref="mySwiper">
+        <!-- slides -->
+        <swiper-slide></swiper-slide>
+        <swiper-slide></swiper-slide>
+
+        <div class="swiper-pagination" slot="pagination"></div>
+    </swiper>
+</template>
+
+<script>
+export default {
+    name: 'HomeSwiper',
+    data() {
+        return {
+            swiperOption: {},
+        };
+    },
+};
+</script>
