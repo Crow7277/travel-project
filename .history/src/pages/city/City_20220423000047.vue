@@ -1,7 +1,6 @@
 <template>
     <div>
         <CityHeader></CityHeader>
-        <CitySearch></CitySearch>
     </div>
 </template>
 

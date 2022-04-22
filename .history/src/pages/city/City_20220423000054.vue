@@ -1,7 +1,7 @@
 <template>
     <div>
         <CityHeader></CityHeader>
-        <CitySearch></CitySearch>
+        <CitySearch
     </div>
 </template>
 
