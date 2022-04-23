@@ -2,8 +2,8 @@
     <div>
         <CityHeader></CityHeader>
         <CitySearch></CitySearch>
-        <CityList :hot="hotCities" :cities="cities"></CityList>
-        <CityAlphabet :cities="cities"></CityAlphabet>
+        <CityList></CityList>
+        <CityAlphabet></CityAlphabet>
     </div>
 </template>
 
@@ -28,12 +28,7 @@ export default {
         },
         handleGetCityInfo(res) {
             console.log(res);
-            res = res.data;
-            if (res.ret && res.data) {
-                const data = res.data;
-                this.cities = data.cities;
-                this.hotCities = data.hotCities;
-            }
+            res
         },
     },
     mounted() {

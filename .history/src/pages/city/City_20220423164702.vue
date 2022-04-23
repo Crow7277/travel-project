@@ -2,8 +2,8 @@
     <div>
         <CityHeader></CityHeader>
         <CitySearch></CitySearch>
-        <CityList :hot="hotCities" :cities="cities"></CityList>
-        <CityAlphabet :cities="cities"></CityAlphabet>
+        <CityList :hotCities="hotCities" :cities="cities"></CityList>
+        <CityAlphabet></CityAlphabet>
     </div>
 </template>
 

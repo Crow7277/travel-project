@@ -2,8 +2,8 @@
     <div>
         <CityHeader></CityHeader>
         <CitySearch></CitySearch>
-        <CityList :hot="hotCities" :cities="cities"></CityList>
-        <CityAlphabet :cities="cities"></CityAlphabet>
+        <CityList :hotCities="hot" :cities="cities"></CityList>
+        <CityAlphabet></CityAlphabet>
     </div>
 </template>
 
@@ -19,7 +19,7 @@ export default {
     data() {
         return {
             cities: {},
-            hotCities: [],
+            hot: [],
         };
     },
     methods: {
@@ -29,10 +29,10 @@ export default {
         handleGetCityInfo(res) {
             console.log(res);
             res = res.data;
-            if (res.ret && res.data) {
+            if (res.ref && res.data) {
                 const data = res.data;
                 this.cities = data.cities;
-                this.hotCities = data.hotCities;
+                this.hot = data.hotCities;
             }
         },
     },
