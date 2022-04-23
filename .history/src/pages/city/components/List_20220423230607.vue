@@ -1,5 +1,5 @@
 <template>
-    <div class="list" ref="wrapper">
+    <div class="list" ref="wrapper" @click="Refresh">
         <div>
             <div class="area">
                 <div class="title border-topbottom">当前城市</div>
@@ -69,12 +69,12 @@ export default {
             this.$router.push('/');
         },
         ...mapMutations(['changeCity']),
-    },
-    activated() {
-        this.scroll.refresh();
+        Refresh() {
+            this.scroll.refresh();
+        },
     },
     updated() {
-        this.scroll.refresh();
+        this.scroll = new BScroll(this.$refs.wrapper, { click: true });
     },
     mounted() {
         this.scroll = new BScroll(this.$refs.wrapper, { click: true });

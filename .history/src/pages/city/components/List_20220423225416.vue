@@ -74,9 +74,6 @@ export default {
         this.scroll.refresh();
     },
     updated() {
-        this.scroll.refresh();
-    },
-    mounted() {
         this.scroll = new BScroll(this.$refs.wrapper, { click: true });
     },
 };

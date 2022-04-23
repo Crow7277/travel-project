@@ -70,13 +70,8 @@ export default {
         },
         ...mapMutations(['changeCity']),
     },
-    activated() {
-        this.scroll.refresh();
-    },
+    activated
     updated() {
-        this.scroll.refresh();
-    },
-    mounted() {
         this.scroll = new BScroll(this.$refs.wrapper, { click: true });
     },
 };

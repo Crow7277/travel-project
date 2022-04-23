@@ -69,6 +69,9 @@ export default {
             this.$router.push('/');
         },
         ...mapMutations(['changeCity']),
+        // Refresh() {
+        //     this.scroll.refresh();
+        // },
     },
     activated() {
         this.scroll.refresh();

@@ -70,10 +70,7 @@ export default {
         },
         ...mapMutations(['changeCity']),
     },
-    activated() {
-        this.scroll.refresh();
-    },
-    updated() {
+    up() {
         this.scroll.refresh();
     },
     mounted() {
