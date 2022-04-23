@@ -3,7 +3,7 @@
         <CityHeader></CityHeader>
         <CitySearch></CitySearch>
         <CityList></CityList>
-        <CityAlphabet></CityAlphabet>
+        <CityAlphabet》
     </div>
 </template>
 
