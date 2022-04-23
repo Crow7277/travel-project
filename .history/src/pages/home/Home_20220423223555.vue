@@ -58,7 +58,6 @@ export default {
     },
     activated() {
         if (this.lastCity !== this.city) {
-            this.lastCity = this.city;
             this.getHomeInfo();
         }
     },

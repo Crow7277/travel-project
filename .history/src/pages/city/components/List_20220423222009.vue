@@ -5,7 +5,7 @@
                 <div class="title border-topbottom">当前城市</div>
                 <div class="button-list">
                     <div class="button-wrapper">
-                        <div class="button">{{ currentCity }}</div>
+                        <div class="button">{{ this.currentCity }}</div>
                     </div>
                 </div>
             </div>
@@ -71,7 +71,7 @@ export default {
         ...mapMutations(['changeCity']),
     },
 
-    updated() {
+    activated() {
         this.scroll = new BScroll(this.$refs.wrapper);
     },
 };

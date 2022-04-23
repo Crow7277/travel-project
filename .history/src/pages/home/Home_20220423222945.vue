@@ -22,20 +22,20 @@ export default {
     components: { HomeHeader, HomeSwiper, HomeIcons, HomeRecommend, HomeWeekend },
     data() {
         return {
-            lastCity: '',
+            // city: '',
             swiperList: [],
             iconList: [],
             recommendList: [],
             weekendList: [],
         };
     },
-    computed: {
-        ...mapState(['city']),
-    },
+    computed:{
+        ...mapState(['city'])
+    }
     methods: {
         // 获取ajax数据
         getHomeInfo() {
-            axios.get('/api/index.json?city=' + this.city).then(this.getHomeInfoSucc);
+            axios.get('/api/index.json?city=`${city}`').then(this.getHomeInfoSucc);
         },
         getHomeInfoSucc(res) {
             res = res.data;
@@ -53,14 +53,7 @@ export default {
         },
     },
     mounted() {
-        this.lastCity = this.city;
         this.getHomeInfo();
-    },
-    activated() {
-        if (this.lastCity !== this.city) {
-            this.lastCity = this.city;
-            this.getHomeInfo();
-        }
     },
 };
 </script>
