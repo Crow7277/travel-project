@@ -33,6 +33,9 @@ export default {
                 const data = res.data;
                 this.cities = data.cities;
                 this.hotCities = data.hotCities;
+
+                 for (let i in this.cities) {
+                    this.cities[i].forEach(value => {}}
             }
         },
         handleLetterChange(letter) {

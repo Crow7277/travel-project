@@ -8,19 +8,15 @@
                 placeholder="输入城市名或拼音"
             />
         </div>
-        <div class="search-content" ref="search" v-show="keyword">
+        <div class="search-content">
             <ul>
-                <li class="search-item border-bottom" v-for="item of list" :key="item.id">
-                    {{ item.name }}
-                </li>
-                <li class="search-item border-bottom" v-show="hasNoData">没有找到匹配数据</li>
+                <li>1423</li>
             </ul>
         </div>
     </div>
 </template>
 
 <script>
-import BScroll from '@better-scroll/core';
 export default {
     name: 'CitySearch',
     props: {
@@ -33,27 +29,15 @@ export default {
             timer: null,
         };
     },
-    computed: {
-        hasNoData() {
-            return !this.list.length;
-        },
-    },
     watch: {
         keyword() {
             // 由于此处会进行多次计算，所以要使用节流函数节流
             // 当keyword发生改变之后100ms，延时函数才会执行
             if (this.timer) clearTimeout(this.timer);
-            if (!this.keyword) {
-                this.list = [];
-            }
             this.timer = setTimeout(() => {
                 const result = [];
                 for (let i in this.cities) {
-                    // i:A ~ Z
-                    // this.cities[i]为cities中的每个字母对应的数组对象
                     this.cities[i].forEach(value => {
-                        // value为cities中的每个字母对应的数组对象的每个元素
-                        // 判断keyword是否存在于spell与name中，不存在就push
                         if (
                             value.spell.indexOf(this.keyword) > -1 ||
                             value.name.indexOf(this.keyword) > -1
@@ -62,12 +46,8 @@ export default {
                         }
                     });
                 }
-                this.list = result;
             }, 100);
         },
-    },
-    updated() {
-        this.scroll = new BScroll(this.$refs.search);
     },
 };
 </script>
@@ -88,17 +68,11 @@ export default {
             border-radius: .06rem
             color: #666
     .search-content
-        z-index: 1
         overflow hidden
         position: absolute
         top: 1.58rem
         left: 0
         right: 0
         bottom: 0
-        background: #eee
-        .search-item
-            line-height: .62rem
-            padding-left: .2rem
-            color: #666
-            background: #fff
+        background: green
 </style>

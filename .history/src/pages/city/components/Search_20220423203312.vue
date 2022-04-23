@@ -8,12 +8,12 @@
                 placeholder="输入城市名或拼音"
             />
         </div>
-        <div class="search-content" ref="search" v-show="keyword">
+        <div class="search-content" ref="search">
             <ul>
                 <li class="search-item border-bottom" v-for="item of list" :key="item.id">
                     {{ item.name }}
                 </li>
-                <li class="search-item border-bottom" v-show="hasNoData">没有找到匹配数据</li>
+                <li class="search-item border-bottom" v-show="!list.length">没有找到匹配数据</li>
             </ul>
         </div>
     </div>
@@ -32,11 +32,6 @@ export default {
             list: [],
             timer: null,
         };
-    },
-    computed: {
-        hasNoData() {
-            return !this.list.length;
-        },
     },
     watch: {
         keyword() {
@@ -88,7 +83,6 @@ export default {
             border-radius: .06rem
             color: #666
     .search-content
-        z-index: 1
         overflow hidden
         position: absolute
         top: 1.58rem

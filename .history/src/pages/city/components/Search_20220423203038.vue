@@ -8,12 +8,11 @@
                 placeholder="输入城市名或拼音"
             />
         </div>
-        <div class="search-content" ref="search" v-show="keyword">
+        <div class="search-content" ref="search">
             <ul>
                 <li class="search-item border-bottom" v-for="item of list" :key="item.id">
                     {{ item.name }}
                 </li>
-                <li class="search-item border-bottom" v-show="hasNoData">没有找到匹配数据</li>
             </ul>
         </div>
     </div>
@@ -33,18 +32,13 @@ export default {
             timer: null,
         };
     },
-    computed: {
-        hasNoData() {
-            return !this.list.length;
-        },
-    },
     watch: {
         keyword() {
             // 由于此处会进行多次计算，所以要使用节流函数节流
             // 当keyword发生改变之后100ms，延时函数才会执行
             if (this.timer) clearTimeout(this.timer);
-            if (!this.keyword) {
-                this.list = [];
+            if(!this.keyword){
+                th
             }
             this.timer = setTimeout(() => {
                 const result = [];
@@ -88,7 +82,6 @@ export default {
             border-radius: .06rem
             color: #666
     .search-content
-        z-index: 1
         overflow hidden
         position: absolute
         top: 1.58rem

@@ -33,6 +33,7 @@ export default {
                 const data = res.data;
                 this.cities = data.cities;
                 this.hotCities = data.hotCities;
+                console.log(object);
             }
         },
         handleLetterChange(letter) {
