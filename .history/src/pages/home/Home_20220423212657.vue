@@ -1,6 +1,6 @@
 <template>
     <div>
-        <HomeHeader></HomeHeader>
+        <HomeHeader :city="city"></HomeHeader>
         <HomeSwiper :list="swiperList"></HomeSwiper>
         <HomeIcons :list="iconList"></HomeIcons>
         <HomeRecommend :list="recommendList"></HomeRecommend>
@@ -39,7 +39,7 @@ export default {
             // 因此当其为true时表示正确返回了结果
             if (res.ret && res.data) {
                 const data = res.data;
-                // this.city = data.city;
+                this.city = data.city;
                 this.swiperList = data.swiperList;
                 this.iconList = data.iconList;
                 this.recommendList = data.recommendList;

@@ -65,10 +65,10 @@ export default {
     methods: {
         handleCity(city) {
             // 没有异步操作，直接进入Mutations
-            this.changeCity(city);
+            this.$store.commit('changeCity', city);
             this.$router.push('/');
         },
-        ...mapMutations(['changeCity']),
+        ..
     },
 
     updated() {

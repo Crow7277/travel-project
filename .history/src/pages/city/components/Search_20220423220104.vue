@@ -26,7 +26,7 @@
 
 <script>
 import BScroll from '@better-scroll/core';
-import { mapMutations } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
     name: 'CitySearch',
@@ -43,10 +43,10 @@ export default {
     methods: {
         handleCity(city) {
             // 没有异步操作，直接进入Mutations
-            this.changeCity(city);
+            this.$store.commit('changeCity', city);
             this.$router.push('/');
         },
-        ...mapMutations(['changeCity']),
+        ...mapMutations(['change'])
     },
     computed: {
         hasNoData() {

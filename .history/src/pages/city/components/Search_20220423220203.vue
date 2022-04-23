@@ -26,7 +26,7 @@
 
 <script>
 import BScroll from '@better-scroll/core';
-import { mapMutations } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
     name: 'CitySearch',

@@ -7,7 +7,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     // 用于存储数据
-    state,
+    state: state,
     // 用于操作数据(state)
-    mutations,
+    mutations
 });
