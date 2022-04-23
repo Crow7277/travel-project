@@ -25,8 +25,6 @@ export default {
         return {
             // 判断手指是否正在触摸
             touchStatus: false,
-            startY: 0,
-            timer: null,
         };
     },
     computed: {
@@ -39,9 +37,6 @@ export default {
             return letters;
         },
     },
-    updated() {
-        this.startY = this.$refs['A'][0].offsetTop;
-    },
     methods: {
         handleLetterClick(e) {
             // 触发自定义事件change，该事件有City组件进行监听
@@ -53,21 +48,16 @@ export default {
         },
         handleTouchMove(e) {
             if (this.touchStatus) {
-                if (this.timer) {
-                    clearTimeout(this.timer);
+                // 首先获得A字母距离顶部的高度
+                // 获得手指位置距离顶部的高度
+                // 将上面的两个高度做差值就可以得到当前手指位置距离A字母顶部的距离
+                // 将距离除以每个字母的高度就可以当前是第几个字母，之后根据第几个字母触发change事件即可
+                const startY = this.$refs['A'][0].offsetTop;
+                const touchY = e.touches[0].clientY - 79;
+                const index = Math.floor((touchY - startY) / 20);
+                if (index >= 0 && index < this.letters.length) {
+                    this.$emit('change', this, letters[index]);
                 }
-                this.timer = setTimeout(() => {
-                    // 首先获得A字母距离顶部的高度
-                    // 获得手指位置距离顶部的高度
-                    // 将上面的两个高度做差值就可以得到当前手指位置距离A字母顶部的距离
-                    // 将距离除以每个字母的高度就可以当前是第几个字母，之后根据第几个字母触发change事件即可
-                    // const startY = this.$refs['A'][0].offsetTop;
-                    const touchY = e.touches[0].clientY - 79;
-                    const index = Math.floor((touchY - this.startY) / 20);
-                    if (index >= 0 && index < this.letters.length) {
-                        this.$emit('change', this.letters[index]);
-                    }
-                }, 5);
             }
         },
         handleTouchEnd() {

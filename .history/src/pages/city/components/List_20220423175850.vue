@@ -33,10 +33,9 @@
 import BScroll from '@better-scroll/core';
 export default {
     name: 'CityList',
-    props: {
-        hot: Array,
-        cities: Object,
-        letter: String,
+    props: { hot: Array, cities: Object, letter: String },
+    mounted() {
+        this.scroll = new BScroll(this.$refs.wrapper);
     },
     watch: {
         letter() {
@@ -45,9 +44,13 @@ export default {
                 this.scroll.scrollToElement(element);
             }
         },
-    },
-    updated() {
-        this.scroll = new BScroll(this.$refs.wrapper);
+            letter () {
+      if (this.letter) {
+        const element = this.$refs[this.letter][0]
+        this.scroll.scrollToElement(element)
+      }
+    }
+  }
     },
 };
 </script>

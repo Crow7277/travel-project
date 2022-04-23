@@ -47,6 +47,11 @@ export default {
         },
     },
     updated() {
+        console.log('updated');
+        // this.scroll = new BScroll(this.$refs.wrapper);
+    },
+    mounted() {
+        console.log('Listmounted');
         this.scroll = new BScroll(this.$refs.wrapper);
     },
 };

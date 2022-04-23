@@ -38,6 +38,9 @@ export default {
         cities: Object,
         letter: String,
     },
+    mounted() {
+        this.scroll = new Bscroll(this.$refs.wrapper);
+    },
     watch: {
         letter() {
             if (this.letter) {
@@ -45,9 +48,6 @@ export default {
                 this.scroll.scrollToElement(element);
             }
         },
-    },
-    updated() {
-        this.scroll = new BScroll(this.$refs.wrapper);
     },
 };
 </script>

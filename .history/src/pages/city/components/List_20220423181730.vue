@@ -47,8 +47,10 @@ export default {
         },
     },
     updated() {
+        console.log('ce');
         this.scroll = new BScroll(this.$refs.wrapper);
     },
+    mounted
 };
 </script>
 

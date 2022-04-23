@@ -47,6 +47,7 @@ export default {
         },
     },
     updated() {
+        console.log('object');
         this.scroll = new BScroll(this.$refs.wrapper);
     },
 };

@@ -67,13 +67,16 @@ export default {
                     if (index >= 0 && index < this.letters.length) {
                         this.$emit('change', this.letters[index]);
                     }
-                }, 5);
+                }, 16);
             }
         },
         handleTouchEnd() {
             // 当结束滑动的时候
             this.touchStatus = false;
         },
+    },
+    mounted() {
+        console.log('Listmounted');
     },
 };
 </script>

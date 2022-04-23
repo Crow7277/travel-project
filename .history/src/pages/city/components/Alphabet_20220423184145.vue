@@ -75,6 +75,9 @@ export default {
             this.touchStatus = false;
         },
     },
+    mounted() {
+        console.log('Almounted');
+    },
 };
 </script>
 

@@ -2,7 +2,7 @@
     <div>
         <CityHeader></CityHeader>
         <CitySearch></CitySearch>
-        <CityList :hot="hotCities" :cities="cities" :letter="letter"></CityList>
+        <CityList :hot="hotCities" :cities="cities"></CityList>
         <CityAlphabet :cities="cities" @change="handleLetterChange"></CityAlphabet>
     </div>
 </template>
@@ -36,7 +36,7 @@ export default {
             }
         },
         handleLetterChange(letter) {
-            this.letter = letter;
+            console.log(letter);
         },
     },
     mounted() {

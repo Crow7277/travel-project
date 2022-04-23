@@ -40,6 +40,7 @@ export default {
         },
     },
     mounted() {
+        console.log('Citymounted');
         this.getCityInfo();
     },
 };

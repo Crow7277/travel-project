@@ -40,6 +40,7 @@ export default {
         },
     },
     mounted() {
+        console.log('object');
         this.getCityInfo();
     },
 };
