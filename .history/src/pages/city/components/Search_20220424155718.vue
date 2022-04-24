@@ -1,0 +1,119 @@
+<template>
+    <div>
+        <div class="search">
+            <input
+                v-model="keyword"
+                class="search-input"
+                type="text"
+                placeholder="输入城市名或拼音"
+            />
+        </div>
+        <div class="search-content" ref="search" v-show="keyword">
+            <ul>
+                <li
+                    class="search-item border-bottom"
+                    v-for="item of list"
+                    :key="item.id"
+                    @click="handleCity(item.name)"
+                >
+                    {{ item.name }}
+                </li>
+                <li class="search-item border-bottom" v-show="hasNoData">没有找到匹配数据</li>
+            </ul>
+        </div>
+    </div>
+</template>
+
+<script>
+import BScroll from 'better-scroll';
+import { mapMutations } from 'vuex';
+
+export default {
+    name: 'CitySearch',
+    props: {
+        cities: Object,
+    },
+    data() {
+        return {
+            keyword: '',
+            list: [],
+            timer: null,
+        };
+    },
+    methods: {
+        handleCity(city) {
+            // 没有异步操作，直接进入Mutations
+            this.changeCity(city);
+            this.$router.push('/');
+        },
+        ...mapMutations(['changeCity']),
+    },
+    computed: {
+        hasNoData() {
+            return !this.list.length;
+        },
+    },
+    watch: {
+        keyword() {
+            // 由于此处会进行多次计算，所以要使用节流函数节流
+            // 当keyword发生改变之后100ms，延时函数才会执行
+            if (this.timer) clearTimeout(this.timer);
+            if (!this.keyword) {
+                this.list = [];
+            }
+            this.timer = setTimeout(() => {
+                const result = [];
+                for (let i in this.cities) {
+                    // i:A ~ Z
+                    // this.cities[i]为cities中的每个字母对应的数组对象
+                    this.cities[i].forEach(value => {
+                        // value为cities中的每个字母对应的数组对象的每个元素
+                        // 判断keyword是否存在于spell与name中，不存在就push
+                        if (
+                            value.spell.indexOf(this.keyword) > -1 ||
+                            value.name.indexOf(this.keyword) > -1
+                        ) {
+                            result.push(value);
+                        }
+                    });
+                }
+                this.list = result;
+            }, 100);
+        },
+    },
+    updated() {
+        this.scroll = new BScroll(this.$refs.search);
+    },
+};
+</script>
+
+<style lang="stylus" scoped>
+@import '~styles/varibles.styl'
+    .search
+        height: .72rem
+        padding: 0 .1rem
+        background $bgColor
+        .search-input
+            box-sizing: border-box
+            width: 100%
+            height: .62rem
+            padding: 0 .1rem
+            line-height: .62rem
+            text-align: center
+            border-radius: .06rem
+            color: #666
+    .search-content
+        z-index: 1
+        overflow hidden
+        position: absolute
+        top: 1.58rem
+        left: 0
+        right: 0
+        bottom: 0
+        background: #eee
+        .search-item
+            line-height: .62rem
+            padding-left: .2rem
+            color: #666
+            background: #fff
+</style>
