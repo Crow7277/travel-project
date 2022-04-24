@@ -1,6 +1,10 @@
 <template>
     <div>
-        <DetailBanner></DetailBanner>
+        <DetailBanner
+            :sightName="sightName"
+            :bannerImg="bannerImg"
+            :galleryImgs="galleryImgs"
+        ></DetailBanner>
         <DetailHeader></DetailHeader>
         <DetailList :list="list"></DetailList>
         <div class="content"></div>
@@ -11,33 +15,43 @@
 import DetailBanner from './components/Banner.vue';
 import DetailHeader from './components/Header.vue';
 import DetailList from './components/List.vue';
+import axios from 'axios';
 export default {
     name: 'Detail',
     components: { DetailBanner, DetailHeader, DetailList },
     data() {
         return {
-            list: [
-                {
-                    title: '成人票',
-                    children: [
-                        {
-                            title: '成人三馆联票',
-                            children: [
-                                {
-                                    title: '成人三馆联票 - A连锁店销售',
-                                },
-                            ],
-                        },
-                        {
-                            title: '成人五馆联票',
-                        },
-                    ],
-                },
-                { title: '学生票' },
-                { title: '儿童票' },
-                { title: '特惠票' },
-            ],
+            sightName: '',
+            bannerImg: '',
+            galleryImgs: [],
+            list: [],
         };
+    },
+    methods: {
+        getDetailInfo() {
+            axios
+                .get('/api/detail.json', {
+                    // 将动态路由的参数一起发给后端
+                    params: {
+                        id: this.$route.params.id,
+                    },
+                })
+                .then(this.handleGetDataSucc);
+        },
+        handleGetDataSucc(res) {
+            res = res.data;
+
+            if (res.ret && res.data) {
+                const data = res.data;
+                this.sightName = data.sightName;
+                this.bannerImg = data.bannerImg;
+                this.galleryImgs = data.galleryImgs;
+                this.list = data.categoryList;
+            }
+        },
+    },
+    mounted() {
+        this.getDetailInfo();
     },
 };
 </script>
