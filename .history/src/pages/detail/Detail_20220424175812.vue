@@ -15,7 +15,4 @@ export default {
 };
 </script>
 
-<style lang="stylus" scoped>
-.content
-    height: 50rem
-</style>
+<style></style>

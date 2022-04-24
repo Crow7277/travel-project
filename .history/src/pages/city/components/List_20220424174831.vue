@@ -71,16 +71,18 @@ export default {
         ...mapMutations(['changeCity']),
     },
 
-    activated() {
-        this.scroll.refresh();
-    },
+    // activated() {
+    //     this.scroll.refresh();
+    // },
     // updated() {
     //     this.scroll.refresh();
     // },
     mounted() {
-        this.scroll = new BScroll(this.$refs.wrapper, {
-            click: true,
-        });
+        setTimeout(() => {
+            this.scroll = new BScroll(this.$refs.wrapper, {
+                click: true,
+            });
+        },);
     },
 };
 </script>
