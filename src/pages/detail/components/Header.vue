@@ -26,7 +26,9 @@ export default {
     methods: {
         handleScroll() {
             // 此时由于有两个头部，并且隐藏了一个，当页面向下滑动时，隐藏上面的，展示下面的
-            const top = document.documentElement.scrollTop;
+            // 浏览器兼容性处理
+            const top =
+                document.documentElement.scrollTop || document.body.scrollTop || window.pageYOffset;
             if (top > 60) {
                 let opacity = top / 140;
                 opacity = opacity > 1 ? 1 : opacity;
@@ -39,10 +41,10 @@ export default {
             }
         },
     },
-    activated() {
+    mounted() {
         window.addEventListener('scroll', this.handleScroll);
     },
-    deactivated() {
+    destroyed() {
         window.removeEventListener('scroll', this.handleScroll);
     },
 };
