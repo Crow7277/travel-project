@@ -4,7 +4,7 @@
             <swiper-slide v-for="(page, index) of pages" :key="index">
                 <div class="icon" v-for="item of page" :key="item.id">
                     <div class="icon-img">
-                        <img class="icon-img-content" :src="item.imgUrl" alt="" />
+                        <img class="icon-img-content" :src="item.imgUrl" />
                     </div>
                     <p class="icon-desc">{{ item.desc }}</p>
                 </div>
@@ -14,25 +14,22 @@
 </template>
 
 <script>
+import { computed } from 'vue';
 export default {
     name: 'HomeIcons',
     props: {
         list: Array,
     },
-    data() {
-        return {
-            // 关闭轮播图自动滚动
-            swiperOption: {
-                autoplay: false,
-            },
+    setup(props) {
+        // 关闭轮播图自动滚动
+        const swiperOption = {
+            autoplay: false,
         };
-    },
-    computed: {
-        // 判断图标存在于第几页
-        pages() {
+
+        const pages = computed(() => {
             const pages = [];
             // 遍历所有图标
-            this.list.forEach((item, index) => {
+            props.list.forEach((item, index) => {
                 // 由于1页8个图标，因此可以通过index/8来判断在第几页(从0页开始)
                 // 由于js语言特性,这里需要向下取整
                 const page = Math.floor(index / 8);
@@ -45,7 +42,8 @@ export default {
                 pages[page].push(item);
             });
             return pages;
-        },
+        });
+        return { swiperOption, pages };
     },
 };
 </script>

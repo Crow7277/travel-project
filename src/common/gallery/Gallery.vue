@@ -13,31 +13,31 @@
 
 <script>
 export default {
-    name: 'CommonGallery',
-    props: {
-        imgs: {
-            type: Array,
-            default() {},
+  name: 'CommonGallery',
+  props: {
+    imgs: {
+      type: Array,
+      default () {}
+    }
+  },
+  data () {
+    return {
+      swiperOptions: {
+        pagination: {
+          el: '.swiper-pagination',
+          type: 'fraction'
         },
-    },
-    data() {
-        return {
-            swiperOptions: {
-                pagination: {
-                    el: '.swiper-pagination',
-                    type: 'fraction',
-                },
-                observer: true,
-                observeParents: true,
-            },
-        };
-    },
-    methods: {
-        handleGalleryClick() {
-            this.$emit('close');
-        },
-    },
-};
+        observer: true,
+        observeParents: true
+      }
+    }
+  },
+  methods: {
+    handleGalleryClick () {
+      this.$emit('close')
+    }
+  }
+}
 </script>
 
 <style lang="stylus" scoped>

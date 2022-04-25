@@ -1,10 +1,10 @@
 <template>
     <div>
         <HomeHeader></HomeHeader>
-        <HomeSwiper :list="swiperList"></HomeSwiper>
-        <HomeIcons :list="iconList"></HomeIcons>
-        <HomeRecommend :list="recommendList"></HomeRecommend>
-        <HomeWeekend :list="weekendList"></HomeWeekend>
+        <HomeSwiper :list="data.swiperList"></HomeSwiper>
+        <HomeIcons :list="data.iconList"></HomeIcons>
+        <HomeRecommend :list="data.recommendList"></HomeRecommend>
+        <HomeWeekend :list="data.weekendList"></HomeWeekend>
     </div>
 </template>
 
@@ -15,52 +15,44 @@ import HomeIcons from './components/Icons.vue';
 import HomeRecommend from './components/Recommend.vue';
 import HomeWeekend from './components/Weekend';
 import axios from 'axios';
-import { mapState } from 'vuex';
-
+import { useStore } from 'vuex';
+import { reactive, onMounted } from 'vue';
 export default {
     name: 'Home',
     components: { HomeHeader, HomeSwiper, HomeIcons, HomeRecommend, HomeWeekend },
-    data() {
-        return {
-            lastCity: '',
+    setup() {
+        const data = reactive({
             swiperList: [],
             iconList: [],
             recommendList: [],
             weekendList: [],
-        };
-    },
-    computed: {
-        ...mapState(['city']),
-    },
-    methods: {
+        });
+
+        const store = useStore();
+        const city = store.state.city;
+
         // 获取ajax数据
-        getHomeInfo() {
-            axios.get('/api/index.json?city=' + this.city).then(this.getHomeInfoSucc);
-        },
-        getHomeInfoSucc(res) {
+        async function getHomeInfo() {
+            let res = await axios.get('/api/index.json?city=' + city);
             res = res.data;
             // 此处模拟的ret为是否成功返回结果
             // 因此当其为true时表示正确返回了结果
             if (res.ret && res.data) {
-                const data = res.data;
+                const result = res.data;
                 // this.city = data.city;
-                this.swiperList = data.swiperList;
-                this.iconList = data.iconList;
-                this.recommendList = data.recommendList;
-                this.weekendList = data.weekendList;
+                data.swiperList = result.swiperList;
+                data.iconList = result.iconList;
+                data.recommendList = result.recommendList;
+                data.weekendList = result.weekendList;
             }
             console.log(res);
-        },
-    },
-    mounted() {
-        this.lastCity = this.city;
-        this.getHomeInfo();
-    },
-    activated() {
-        if (this.lastCity !== this.city) {
-            this.lastCity = this.city;
-            this.getHomeInfo();
         }
+
+        onMounted(() => {
+            getHomeInfo();
+        });
+
+        return { data, city };
     },
 };
 </script>

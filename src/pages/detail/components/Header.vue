@@ -4,7 +4,7 @@
             <div class="iconfont header-abs-back">&#xe624;</div>
         </router-link>
         <div class="header-fixed" v-show="!showAbs" :style="opacityStyle">
-            <router-link tag="div" to="/">
+            <router-link to="/">
                 <div class="iconfont header-fixed-back">&#xe624;</div>
             </router-link>
             景点详情
@@ -13,39 +13,36 @@
 </template>
 
 <script>
+import { onMounted, onUnmounted, reactive, ref } from 'vue';
 export default {
     name: 'DetailHeader',
-    data() {
-        return {
-            showAbs: true,
-            opacityStyle: {
-                opacity: 0,
-            },
-        };
-    },
-    methods: {
-        handleScroll() {
-            // 此时由于有两个头部，并且隐藏了一个，当页面向下滑动时，隐藏上面的，展示下面的
-            // 浏览器兼容性处理
+    setup() {
+        const showAbs = ref(true);
+        const opacityStyle = reactive({
+            opacity: 0,
+        });
+
+        function handleScroll() {
             const top =
                 document.documentElement.scrollTop || document.body.scrollTop || window.pageYOffset;
             if (top > 60) {
                 let opacity = top / 140;
                 opacity = opacity > 1 ? 1 : opacity;
-                this.opacityStyle = {
-                    opacity,
-                };
-                this.showAbs = false;
+                opacityStyle.opacity = opacity;
+                showAbs.value = false;
             } else {
-                this.showAbs = true;
+                showAbs.value = true;
             }
-        },
-    },
-    mounted() {
-        window.addEventListener('scroll', this.handleScroll);
-    },
-    destroyed() {
-        window.removeEventListener('scroll', this.handleScroll);
+        }
+
+        onMounted(() => {
+            window.addEventListener('scroll', handleScroll);
+        });
+        onUnmounted(() => {
+            window.removeEventListener('scroll', handleScroll);
+        });
+
+        return { showAbs, opacityStyle };
     },
 };
 </script>

@@ -14,11 +14,11 @@
 
 <script>
 export default {
-    name: 'DetailList',
-    props: {
-        list: Array,
-    },
-};
+  name: 'DetailList',
+  props: {
+    list: Array
+  }
+}
 </script>
 
 <style lang="stylus" scoped>

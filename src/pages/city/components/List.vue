@@ -22,7 +22,12 @@
                     </div>
                 </div>
             </div>
-            <div class="area" v-for="(item, key) of cities" :key="key" :ref="key">
+            <div
+                class="area"
+                v-for="(item, key) of cities"
+                :key="key"
+                :ref="ele => (elems[key] = ele)"
+            >
                 <div class="title border-topbottom">{{ key }}</div>
                 <div class="item-list">
                     <div
@@ -41,7 +46,9 @@
 
 <script>
 import BScroll from 'better-scroll';
-import { mapState, mapMutations } from 'vuex';
+import { useStore } from 'vuex';
+import { onActivated, onMounted, watch, ref } from 'vue';
+import { useRouter } from 'vue-router';
 export default {
     name: 'CityList',
     props: {
@@ -49,38 +56,41 @@ export default {
         cities: Object,
         letter: String,
     },
-    watch: {
-        letter() {
-            if (this.letter) {
-                const element = this.$refs[this.letter][0];
-                this.scroll.scrollToElement(element);
-            }
-        },
-    },
-    computed: {
-        ...mapState({
-            currentCity: 'city',
-        }),
-    },
-    methods: {
-        handleCity(city) {
-            // 没有异步操作，直接进入Mutations
-            this.changeCity(city);
-            this.$router.push('/');
-        },
-        ...mapMutations(['changeCity']),
-    },
 
-    activated() {
-        this.scroll.refresh();
-    },
-    // updated() {
-    //     this.scroll.refresh();
-    // },
-    mounted() {
-        this.scroll = new BScroll(this.$refs.wrapper, {
-            click: true,
+    setup(props) {
+        const store = useStore();
+        const router = useRouter();
+        const currentCity = store.state.city;
+        const elems = ref({});
+        let scroll = null;
+        const wrapper = ref(null);
+
+        function handleCity(city) {
+            store.commit('changeCity');
+            useRouter.push('/');
+        }
+
+        watch(
+            () => props.letter,
+            (letter, prevLetter) => {
+                if (letter && scroll) {
+                    const element = elems.value[letter];
+                    scroll.scrollToElement(element);
+                }
+            }
+        );
+
+        onActivated(() => {
+            this.scroll.refresh();
         });
+
+        onMounted(() => {
+            scroll = new BScroll(wrapper.value, {
+                click: true,
+            });
+        });
+
+        return { currentCity, handleCity, wrapper, elems };
     },
 };
 </script>

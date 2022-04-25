@@ -1,57 +1,55 @@
 <template>
     <div>
-        <DetailBanner
+        <detail-banner
             :sightName="sightName"
             :bannerImg="bannerImg"
-            :galleryImgs="galleryImgs"
-        ></DetailBanner>
-        <DetailHeader></DetailHeader>
-        <DetailList :list="list"></DetailList>
-        <div class="content"></div>
+            :bannerImgs="galleryImgs"
+        ></detail-banner>
+        <detail-header></detail-header>
+        <div class="content">
+            <detail-list :list="list"></detail-list>
+        </div>
     </div>
 </template>
 
 <script>
-import DetailBanner from './components/Banner.vue';
-import DetailHeader from './components/Header.vue';
-import DetailList from './components/List.vue';
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import DetailBanner from './components/Banner';
+import DetailHeader from './components/Header';
+import DetailList from './components/List';
 import axios from 'axios';
 export default {
     name: 'Detail',
-    components: { DetailBanner, DetailHeader, DetailList },
-    data() {
-        return {
-            sightName: '',
-            bannerImg: '',
-            galleryImgs: [],
-            list: [],
-        };
+    components: {
+        DetailBanner,
+        DetailHeader,
+        DetailList,
     },
-    methods: {
-        getDetailInfo() {
-            axios
-                .get('/api/detail.json', {
-                    // 将动态路由的参数一起发给后端
-                    params: {
-                        id: this.$route.params.id,
-                    },
-                })
-                .then(this.handleGetDataSucc);
-        },
-        handleGetDataSucc(res) {
-            res = res.data;
+    setup() {
+        const sightName = ref('');
+        const bannerImg = ref('');
+        const galleryImgs = ref([]);
+        const list = ref([]);
+        const route = useRoute();
 
+        async function getDetailInfo() {
+            let res = await axios.get('/api/detail.json', {
+                params: { id: route.params.id },
+            });
+            res = res.data;
             if (res.ret && res.data) {
                 const data = res.data;
-                this.sightName = data.sightName;
-                this.bannerImg = data.bannerImg;
-                this.galleryImgs = data.galleryImgs;
-                this.list = data.categoryList;
+                sightName.value = data.sightName;
+                bannerImg.value = data.bannerImg;
+                galleryImgs.value = data.galleryImgs;
+                list.value = data.categoryList;
             }
-        },
-    },
-    mounted() {
-        this.getDetailInfo();
+        }
+        onMounted(() => {
+            getDetailInfo();
+        });
+        return { sightName, bannerImg, galleryImgs, list };
     },
 };
 </script>

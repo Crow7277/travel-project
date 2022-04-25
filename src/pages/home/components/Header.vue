@@ -15,11 +15,13 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { useStore } from 'vuex';
 export default {
     name: 'HomeHeader',
-    computed: {
-        ...mapState(['city']),
+    setup() {
+        const store = useStore();
+        const city = store.state.city;
+        return { city };
     },
 };
 </script>

@@ -26,63 +26,66 @@
 
 <script>
 import BScroll from 'better-scroll';
-import { mapMutations } from 'vuex';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+import { computed, onMounted, ref, watch } from 'vue';
 
 export default {
     name: 'CitySearch',
     props: {
         cities: Object,
     },
-    data() {
-        return {
-            keyword: '',
-            list: [],
-            timer: null,
-        };
-    },
-    methods: {
-        handleCity(city) {
-            // 没有异步操作，直接进入Mutations
-            this.changeCity(city);
-            this.$router.push('/');
-        },
-        ...mapMutations(['changeCity']),
-    },
-    computed: {
-        hasNoData() {
-            return !this.list.length;
-        },
-    },
-    watch: {
-        keyword() {
+    setup(props) {
+        const keyword = ref('');
+        const list = ref([]);
+        let timer = null;
+        const store = useStore();
+        const router = useRouter();
+        const search = ref(null);
+
+        let hasNoData = computed(() => {
+            return !list.length;
+        });
+
+        watch(keyword, (keyword, prevKeyword) => {
             // 由于此处会进行多次计算，所以要使用节流函数节流
             // 当keyword发生改变之后100ms，延时函数才会执行
-            if (this.timer) clearTimeout(this.timer);
-            if (!this.keyword) {
-                this.list = [];
+            if (timer) {
+                clearTimeout(timer);
+                timer = null;
             }
-            this.timer = setTimeout(() => {
+            if (!keyword) {
+                list.value = [];
+            }
+            timer = setTimeout(() => {
                 const result = [];
-                for (let i in this.cities) {
+                for (const i in props.cities) {
                     // i:A ~ Z
                     // this.cities[i]为cities中的每个字母对应的数组对象
-                    this.cities[i].forEach(value => {
+                    props.cities[i].forEach(value => {
                         // value为cities中的每个字母对应的数组对象的每个元素
                         // 判断keyword是否存在于spell与name中，不存在就push
-                        if (
-                            value.spell.indexOf(this.keyword) > -1 ||
-                            value.name.indexOf(this.keyword) > -1
-                        ) {
+                        if (value.spell.indexOf(keyword) > -1 || value.name.indexOf(keyword) > -1) {
                             result.push(value);
                         }
                     });
                 }
-                this.list = result;
+                list.value = result;
             }, 100);
-        },
-    },
-    mounted() {
-        this.scroll = new BScroll(this.$refs.search);
+        });
+
+        function handleCity(city) {
+            // 没有异步操作，直接进入Mutations
+            store.commit('changeCity', city);
+            router.push('/');
+        }
+
+        onMounted(() => {
+            new BScroll(search.value, {
+                click: true,
+            });
+        });
+        return { keyword, list, hasNoData, handleCity, search };
     },
 };
 </script>

@@ -6,8 +6,8 @@
 
 <script>
 export default {
-    name: 'FadeAnimation',
-};
+  name: 'FadeAnimation'
+}
 </script>
 
 <style lang="stylus" scoped>
